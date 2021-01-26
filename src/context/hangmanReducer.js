@@ -5,6 +5,7 @@ import {
   HIDE_MESSAGE,
   CORRECT_LETTER,
   WRONG_LETTERS,
+  HANG,
 } from './types';
 
 const hangmanReducer = (state, action) => {
@@ -42,6 +43,11 @@ const hangmanReducer = (state, action) => {
       return {
         ...state,
         message: state.message,
+      };
+    case HANG:
+      return {
+        ...state,
+        hangIndex: state.hangIndex + 1,
       };
     default:
       return state;

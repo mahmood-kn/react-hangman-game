@@ -8,6 +8,7 @@ import {
   HIDE_MESSAGE,
   CORRECT_LETTER,
   WRONG_LETTERS,
+  HANG,
 } from './types';
 
 const HangmanState = ({ children }) => {
@@ -18,6 +19,7 @@ const HangmanState = ({ children }) => {
     loading: true,
     message: ['message-container'],
     parts: 6,
+    hangIndex: 0,
   };
   const [state, dispatch] = useReducer(HangmanReducer, initialState);
 
@@ -59,7 +61,7 @@ const HangmanState = ({ children }) => {
       if (!state.wrongLetters.includes(key)) {
         dispatch({ type: WRONG_LETTERS, payload: key });
 
-        // hangMan();
+        dispatch({ type: HANG });
       } else {
         showMessage();
       }
@@ -81,16 +83,6 @@ const HangmanState = ({ children }) => {
     dispatch({ type: HIDE_MESSAGE });
   };
 
-  // const hangMan=() =>{
-  //   if (state.worngLetters.length < parts.length) {
-  //     let count = worngLetters.length - 1;
-  //     parts[count].classList.add('show-part');
-  //   } else {
-  //     gameOverContainer.style.display = 'flex';
-  //     gameoverMsg.textContent = 'Game Over , You lose 😕';
-  //   }
-  // }
-
   return (
     <HangmanContext.Provider
       value={{
@@ -100,6 +92,7 @@ const HangmanState = ({ children }) => {
         loading: state.loading,
         message: state.message,
         parts: state.parts,
+        hangIndex: state.hangIndex,
         getWords,
         displayWord,
         handleKeyDown,
