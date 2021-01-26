@@ -89,7 +89,7 @@ body .header-p {
 
 .gameover-container {
   position: absolute;
-  display: none;
+  display: flex;
   top: 0;
   bottom: 0;
   left: 0;

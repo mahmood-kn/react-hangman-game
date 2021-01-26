@@ -1,19 +1,31 @@
 import React, { useReducer } from 'react';
 import HangmanContext from './hangmanContext';
 import HangmanReducer from './hangmanReducer';
-import { DISPLAY_WORD } from './types';
+import {
+  DISPLAY_WORD,
+  SET_LOADING,
+  SHOW_MESSAGE,
+  HIDE_MESSAGE,
+  CORRECT_LETTER,
+  WRONG_LETTERS,
+} from './types';
 
 const HangmanState = ({ children }) => {
   const initialState = {
     selectedWord: '',
+    correctLetter: [],
+    wrongLetters: [],
+    loading: true,
+    message: ['message-container'],
+    parts: 6,
   };
+  const [state, dispatch] = useReducer(HangmanReducer, initialState);
 
   const getWords = async () => {
     const res = await fetch(
       'https://random-word-api.herokuapp.com/word?number=1'
     );
     const word = await res.json();
-    console.log(word[0]);
     let newWord;
     if (localStorage.getItem('newWord') === null) {
       newWord = [];
@@ -23,25 +35,75 @@ const HangmanState = ({ children }) => {
       newWord.push(word[0]);
     }
     localStorage.setItem('newWord', JSON.stringify(newWord));
-
+    dispatch({ type: SET_LOADING });
     console.log(newWord);
-    // dispatch({ type: GET_WORDS });
   };
 
   const displayWord = async () => {
-    await getWords();
     const word = JSON.parse(localStorage.getItem('newWord'));
     const selectedWord = word ? word[0] : '';
     dispatch({ type: DISPLAY_WORD, payload: selectedWord });
   };
 
-  const [state, dispatch] = useReducer(HangmanReducer, initialState);
+  const checkLetter = (key) => {
+    const word = JSON.parse(localStorage.getItem('newWord'));
+
+    if (word[0].split('').includes(key)) {
+      if (!state.correctLetter.includes(key)) {
+        dispatch({ type: CORRECT_LETTER, payload: key });
+        console.log('correct');
+      } else {
+        showMessage();
+      }
+    } else {
+      if (!state.wrongLetters.includes(key)) {
+        dispatch({ type: WRONG_LETTERS, payload: key });
+
+        // hangMan();
+      } else {
+        showMessage();
+      }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode >= 65 && e.keyCode <= 90) {
+      checkLetter(e.key);
+    }
+  };
+  const showMessage = () => {
+    dispatch({ type: SHOW_MESSAGE });
+    setTimeout(() => {
+      hideMessage();
+    }, 2000);
+  };
+  const hideMessage = () => {
+    dispatch({ type: HIDE_MESSAGE });
+  };
+
+  // const hangMan=() =>{
+  //   if (state.worngLetters.length < parts.length) {
+  //     let count = worngLetters.length - 1;
+  //     parts[count].classList.add('show-part');
+  //   } else {
+  //     gameOverContainer.style.display = 'flex';
+  //     gameoverMsg.textContent = 'Game Over , You lose 😕';
+  //   }
+  // }
+
   return (
     <HangmanContext.Provider
       value={{
         selectedWord: state.selectedWord,
+        correctLetter: state.correctLetter,
+        wrongLetters: state.wrongLetters,
+        loading: state.loading,
+        message: state.message,
+        parts: state.parts,
         getWords,
         displayWord,
+        handleKeyDown,
+        hideMessage,
       }}>
       {children}
     </HangmanContext.Provider>

@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import HangmanContext from '../context/hangmanContext';
 
 const Word = () => {
-  const { selectedWord } = useContext(HangmanContext);
-  let correctLetter = [];
+  const { selectedWord, correctLetter } = useContext(HangmanContext);
   return (
     <div className='word'>
       {selectedWord.split('').map((letter, i) => (

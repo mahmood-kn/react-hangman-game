@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import HangmanContext from '../context/hangmanContext';
 
 const Message = () => {
+  const { message } = useContext(HangmanContext);
+
   return (
-    <div class='message-container'>
+    <div className={message.join(' ')}>
       <p>You have used this letter before</p>
     </div>
   );
