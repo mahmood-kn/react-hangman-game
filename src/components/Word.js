@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import HangmanContext from '../context/hangmanContext';
 
 const Word = () => {
+  const { selectedWord } = useContext(HangmanContext);
+  let correctLetter = [];
   return (
     <div className='word'>
-      {/* <span class='letter'>h</span>
-          <span class='letter'>e</span>
-          <span class='letter'>l</span>
-          <span class='letter'>l</span>
-          <span class='letter'>o</span> */}
+      {selectedWord.split('').map((letter, i) => (
+        <span className='letter' key={i}>
+          {correctLetter.includes(letter) ? letter : ''}
+        </span>
+      ))}
     </div>
   );
 };
