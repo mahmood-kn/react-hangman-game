@@ -38,7 +38,6 @@ const HangmanState = ({ children }) => {
     }
     localStorage.setItem('newWord', JSON.stringify(newWord));
     dispatch({ type: SET_LOADING });
-    console.log(newWord);
   };
 
   const displayWord = async () => {
@@ -53,7 +52,6 @@ const HangmanState = ({ children }) => {
     if (word[0].split('').includes(key)) {
       if (!state.correctLetter.includes(key)) {
         dispatch({ type: CORRECT_LETTER, payload: key });
-        console.log('correct');
       } else {
         showMessage();
       }
