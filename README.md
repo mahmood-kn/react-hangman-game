@@ -6,4 +6,4 @@ This is **React** version of [Hangman Game](https://github.com/mahmood-kn/vanill
 
 ### Live demo
 
-Click [here](https://mahmood-kn.github.io/react-hangman-game 'Form Validation') to see the live demo of this project.
+Click [here](https://mahmood-kn.github.io/react-hangman-game 'Hangman Game') to see the live demo of this project.
