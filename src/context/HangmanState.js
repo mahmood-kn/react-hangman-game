@@ -27,7 +27,6 @@ const HangmanState = ({ children }) => {
     const res = await fetch('https://random-words-api.vercel.app/word/');
     const wordObj = await res.json();
     const word = wordObj.word.toLowerCase();
-    console.log(word);
     let newWord;
     if (localStorage.getItem('newWord') === null) {
       newWord = [];
