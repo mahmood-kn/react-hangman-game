@@ -24,17 +24,17 @@ const HangmanState = ({ children }) => {
   const [state, dispatch] = useReducer(HangmanReducer, initialState);
 
   const getWords = async () => {
-    const res = await fetch(
-      'https://random-word-api.herokuapp.com/word?number=1'
-    );
-    const word = await res.json();
+    const res = await fetch('https://random-words-api.vercel.app/word/');
+    const wordObj = await res.json();
+    const word = wordObj.word.toLowerCase();
+    console.log(word);
     let newWord;
     if (localStorage.getItem('newWord') === null) {
       newWord = [];
-      newWord.push(word[0]);
+      newWord.push(word);
     } else {
       newWord = JSON.parse(localStorage.getItem('newWord'));
-      newWord.push(word[0]);
+      newWord.push(word);
     }
     localStorage.setItem('newWord', JSON.stringify(newWord));
     dispatch({ type: SET_LOADING });
